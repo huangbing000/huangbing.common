@@ -32,6 +32,14 @@ import org.junit.runner.RunWith;
  */
 public class StreamUtil {
 	
+	/**
+	 * 读取文件
+	 * @Title: readFile 
+	 * @Description: TODO
+	 * @param in
+	 * @return
+	 * @return: List<String>
+	 */
 	public static List<String> readFile(InputStream in) {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));

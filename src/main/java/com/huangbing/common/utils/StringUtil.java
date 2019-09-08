@@ -28,94 +28,141 @@ import java.util.regex.Pattern;
  * @date: 2019年8月8日 上午11:09:12
  */
 public class StringUtil {
-	
+
+	/**
+	 * 
+	 * @Title: toHtml
+	 * @Description: 传来的字符转成 html 文本，遇到“\n”符时，要用 <p> </p>  将这一段 字符包起来。
+	 * @return
+	 * @return: String
+	 */
+	public static String toHtml(String src) {
+
+		String str = src.replaceAll(System.getProperty("line.separator"), "|");
+		String[] split = str.split("\\|");
+		String newStr = "";
+		for (String string2 : split) {
+			newStr += "<p>" + string2 + "</p>";
+		}
+		return newStr;
+
+	}
+
+	/**
+	 * 
+	 * @Title: isPhoneNumber
+	 * @Description: 正则验证是否是手机号
+	 * @param number
+	 * @return
+	 * @return: boolean
+	 */
+	public static boolean isPhoneNumber(String number) {
+		// 如果为空则返回false
+		if (!hasText(number))
+			return false;
+		// 规则
+		String telRegex = "[1][3578]\\d{9}";
+		return number.matches(telRegex);
+
+	}
+
+	/**
+	 * 
+	 * @Title: isEmail
+	 * @Description: 校验是否为邮箱
+	 * @param email
+	 * @return
+	 * @return: boolean
+	 */
+	public static boolean isEmail(String email) {
+		// 如果为空则返回false
+		if (!hasText(email))
+			return false;
+
+		String reg = "[A-z]+[A-z0-9_-]*\\@[A-z0-9]+\\.[A-z]+";
+		return email.matches(reg);
+
+	}
+
 	/**
 	 * 功能说明：实现判断传入的字符串是否为包含http的url地址
 	 */
-	public static boolean isHttpUrl(String src){
-		
+	public static boolean isHttpUrl(String src) {
+
 		try {
 			URL url = new URL(src);
-			url.openStream();//试着打开该url
-			return true;//如果打开则是合法的URL
+			url.openStream();// 试着打开该url
+			return true;// 如果打开则是合法的URL
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
-	 * @Title: isNumber 
+	 * @Title: isNumber
 	 * @Description: 判断是否为数值类型
 	 * @param src
 	 * @return
 	 * @return: boolean
 	 */
 	public static boolean isNumber(Object src) {
-		
-    	//String regex ="^[0-9]+$";
-		
-		return src  instanceof Number;
-		
+
+		// String regex ="^[0-9]+$";
+
+		return src instanceof Number;
+
 	}
-	
-	
-	
+
 	/*
-	* 方法功能：根据正则在字符串提取一段值，用于后面在url地址里提取ID值。
-	* 例如在“http://news.cnstock.com/news,yw-201908-4413224.htm”把“4413224”提取出来。
-	*/
-	public static String getPlaceholderValue(String src, String regex){
-		//编译规则
+	 * 方法功能：根据正则在字符串提取一段值，用于后面在url地址里提取ID值。
+	 * 例如在“http://news.cnstock.com/news,yw-201908-4413224.htm”把“4413224”提取出来。
+	 */
+	public static String getPlaceholderValue(String src, String regex) {
+		// 编译规则
 		Pattern p = Pattern.compile(regex);
-		//匹配规则
+		// 匹配规则
 		Matcher m = p.matcher(src);
-		if(m.find()) {
-			//返回匹配的内容
+		if (m.find()) {
+			// 返回匹配的内容
 			return m.group();
 		}
 		return null;
-		
+
 	}
 
-	
 	/**
 	 * 
-	 * @Title: getFormatDate 
+	 * @Title: getFormatDate
 	 * @Description:返回格式化的日期
 	 * @param date
-	 * @param pattern yyyy-MM-dd HH:mm:ss  或yyyy-MM-dd
+	 * @param pattern yyyy-MM-dd HH:mm:ss 或yyyy-MM-dd
 	 * @return
 	 * @return: String
 	 */
-	public  static String getFormatDate(Date date,String pattern) {
+	public static String getFormatDate(Date date, String pattern) {
 		SimpleDateFormat df = new SimpleDateFormat(pattern);
-	     return 	df.format(date);
-		
+		return df.format(date);
+
 	}
-	
-	
-	
+
 	/**
 	 * 
-	 * @Title: split 
+	 * @Title: split
 	 * @Description: 字符串切割
-	 * @param url  
-	 * @param chars 分割方式 |    ,   ; 
+	 * @param url
+	 * @param chars 分割方式 | , ;
 	 * @return
 	 * @return: String[]
 	 */
-	public static String[] split(String url,String chars) {
-		
+	public static String[] split(String url, String chars) {
+
 		return url.split(chars);
-		
+
 	}
-	
-	
-	
-	
+
 	// 方法1：判断源字符串是否有值，空引号(空白字符串)也算没值 (5分)
 	public static boolean hasLength(String src) {
 		return null != src && src.length() > 0;
@@ -186,17 +233,17 @@ public class StringUtil {
 				"仉", "督", "子车", "颛孙", "端木", "巫马", "公西", "漆雕", "乐正", "壤驷", "公良", "拓拔", "夹谷", "宰父", "谷梁", "段干", "百里",
 				"东郭", "南门", "呼延", "归", "海", "羊舌", "微生", "梁丘", "左丘", "东门", "西门", "南宫" };
 		Random r = new Random();
-		//返回的姓//获取姓氏:
-		String str1 =surname[r.nextInt(surname.length)];
-		
-		//产生随机名
-		String str2 = randomChineseString(r.nextInt(2)+1);
+		// 返回的姓//获取姓氏:
+		String str1 = surname[r.nextInt(surname.length)];
+
+		// 产生随机名
+		String str2 = randomChineseString(r.nextInt(2) + 1);
 		/*
 		 * if(r.nextBoolean()) { randomChineseString(1); }else { randomChineseString(2);
 		 * }
 		 */
-		
-		return str1 +str2;
+
+		return str1 + str2;
 	}
 
 }
